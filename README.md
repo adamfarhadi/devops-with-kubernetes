@@ -7,3 +7,4 @@ My solutions for the DevOps With Kubernetes course offered by the University of 
 ### Chapter 2
 
 - [1.1](https://github.com/adamfarhadi/devops-with-kubernetes/tree/1.1/log_output)
+- [1.2](https://github.com/adamfarhadi/devops-with-kubernetes/tree/1.2/todo-app)
