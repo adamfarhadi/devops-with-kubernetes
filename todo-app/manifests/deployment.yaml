@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: todo-app
-          image: adamfarhadi/dwk-todo-app:latest
+          image: adamfarhadi/dwk-todo-app:1.8
           env:
           - name: PORT
             value: "3001"
