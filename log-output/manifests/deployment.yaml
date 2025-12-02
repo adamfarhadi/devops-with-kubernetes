@@ -14,21 +14,24 @@ spec:
     spec:
       volumes:
       - name: log-output-volume
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: log-output-claim
       containers:
         - name: log-output-reader
-          image: adamfarhadi/dwk-log-output-reader:1.10
+          image: adamfarhadi/dwk-log-output-reader:1.11
+          imagePullPolicy: Always
           env:
           - name: PORT
             value: "3001"
           volumeMounts:
           - name: log-output-volume
-            mountPath: /tmp
+            mountPath: /usr/src/app/files
         - name: log-output-writer
-          image: adamfarhadi/dwk-log-output-writer:1.10
+          image: adamfarhadi/dwk-log-output-writer:1.11
+          imagePullPolicy: Always
           env:
           - name: PORT
             value: "3001"
           volumeMounts:
           - name: log-output-volume
-            mountPath: /tmp
+            mountPath: /usr/src/app/files

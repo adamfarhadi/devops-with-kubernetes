@@ -5,11 +5,22 @@ const port = process.env.PORT || 3000
 const fs = require('fs')
 const path = require('path')
 
-const file_path = path.join('/tmp/content.txt')
+const log_file_path = path.join('/usr/src/app/files/log.txt')
+const pingpong_file_path = path.join('/usr/src/app/files/pingpong.txt')
 
-const getContent = async () => {
+const getLogContent = async () => {
   try {
-    const data = await fs.promises.readFile(file_path, 'utf8')
+    const data = await fs.promises.readFile(log_file_path, 'utf8')
+    return data
+  } catch (error) {
+    console.error('Error reading file: ', error)
+    return null
+  }
+}
+
+const getPingPongContent = async () => {
+  try {
+    const data = await fs.promises.readFile(pingpong_file_path, 'utf8')
     return data
   } catch (error) {
     console.error('Error reading file: ', error)
@@ -18,14 +29,16 @@ const getContent = async () => {
 }
 
 app.get('/status', async (req, res) => {
-  const data = await getContent()
+  const logData = await getLogContent()
+  console.log('Read: ', logData)
+  const pingPongData = await getPingPongContent()
+  console.log('Read: ', pingPongData)
 
-  if (!data) {
+  if (!logData || !pingPongData) {
     res.status(500).end()
   }
   
-  console.log('Read: ', data)
-  res.send(data)
+  res.send(`<p>${logData}</p><p>Ping / Pongs: ${pingPongData}</p>`)
 })
 
 app.listen(port, () => {
