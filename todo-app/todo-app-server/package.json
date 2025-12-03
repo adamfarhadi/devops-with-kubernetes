@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "build:ui": "rm -rf dist && cd ../todo-app-frontend && npm run build && cp -r dist ../todo-app-server"
   },
   "author": "",
   "license": "ISC",
