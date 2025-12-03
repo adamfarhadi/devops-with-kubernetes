@@ -12,9 +12,26 @@ spec:
       labels:
         app: todo-app
     spec:
+      volumes:
+      - name: todo-app-volume
+        persistentVolumeClaim:
+          claimName: todo-app-claim
       containers:
-        - name: todo-app
-          image: adamfarhadi/dwk-todo-app:1.8
+        - name: todo-app-server
+          image: adamfarhadi/dwk-todo-app-server:1.12
+          imagePullPolicy: Always
           env:
           - name: PORT
             value: "3001"
+          volumeMounts:
+          - name: todo-app-volume
+            mountPath: /usr/src/app/files
+        - name: todo-app-writer
+          image: adamfarhadi/dwk-todo-app-writer:1.12
+          imagePullPolicy: Always
+          env:
+          - name: PORT
+            value: "3001"
+          volumeMounts:
+          - name: todo-app-volume
+            mountPath: /usr/src/app/files
