@@ -18,3 +18,4 @@ My solutions for the DevOps With Kubernetes course offered by the University of 
 - [1.10](https://github.com/adamfarhadi/devops-with-kubernetes/tree/1.10)
 - [1.11](https://github.com/adamfarhadi/devops-with-kubernetes/tree/1.11)
 - [1.12](https://github.com/adamfarhadi/devops-with-kubernetes/tree/1.12)
+- [1.13](https://github.com/adamfarhadi/devops-with-kubernetes/tree/1.13)
