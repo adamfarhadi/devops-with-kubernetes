@@ -18,7 +18,7 @@ spec:
           claimName: todo-app-claim
       containers:
         - name: todo-app-server
-          image: adamfarhadi/dwk-todo-app-server:1.12
+          image: adamfarhadi/dwk-todo-app-server:1.13
           imagePullPolicy: Always
           env:
           - name: PORT
@@ -27,7 +27,7 @@ spec:
           - name: todo-app-volume
             mountPath: /usr/src/app/files
         - name: todo-app-writer
-          image: adamfarhadi/dwk-todo-app-writer:1.12
+          image: adamfarhadi/dwk-todo-app-writer:1.13
           imagePullPolicy: Always
           env:
           - name: PORT
