@@ -1,0 +1,66 @@
+const express = require('express')
+const axios = require('axios')
+const app = express()
+const port = process.env.PORT || 3000
+
+const fs = require('fs')
+const crypto = require("crypto");
+
+const log_file_path =
+  process.env.NODE_ENV === 'production'
+    ? '/usr/src/app/files/log.txt'
+    : '/tmp/log.txt'
+const pingPongBaseUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'http://ping-pong-svc:2345'
+    : 'http://localhost:3001'
+
+const writeLogFile = () => {
+  const line = new Date() + ': ' + crypto.randomUUID()
+
+  fs.writeFile(log_file_path, line, (error) => {
+    if (error) {
+      console.error('Error writing to file: ', error)
+    }
+    else {
+      console.log('Wrote: ', line.trim())
+    }
+  })
+}
+
+writeLogFile()
+
+setInterval(writeLogFile, 5000)
+
+const getLogContent = async () => {
+  try {
+    const data = await fs.promises.readFile(log_file_path, 'utf8')
+    return data
+  } catch (error) {
+    console.error('Error reading file: ', error)
+    return null
+  }
+}
+
+const getPingPongContent = async () => {
+  const response = await axios.get(`${pingPongBaseUrl}/api/pingpong/pings`)
+  console.log('type of data: ', typeof(response.data))
+  return response.data.toString()
+}
+
+app.get('/', async (req, res) => {
+  const logData = await getLogContent()
+  console.log('Read: ', logData)
+
+  const pingPongData = await getPingPongContent()
+
+  if (!logData || !pingPongData) {
+    return res.status(500).end()
+  }
+
+  res.send(`<p>${logData}</p><p>Ping / Pongs: ${pingPongData}</p>`)
+})
+
+app.listen(port, () => {
+  console.log(`Server started in port ${port}`)
+})

@@ -12,17 +12,10 @@ spec:
       labels:
         app: ping-pong
     spec:
-      volumes:
-      - name: log-output-volume
-        persistentVolumeClaim:
-          claimName: log-output-claim
       containers:
         - name: ping-pong
-          image: adamfarhadi/dwk-ping-pong:1.11
+          image: adamfarhadi/dwk-ping-pong:2.1
           imagePullPolicy: Always
           env:
           - name: PORT
             value: "3001"
-          volumeMounts:
-          - name: log-output-volume
-            mountPath: /usr/src/app/files
