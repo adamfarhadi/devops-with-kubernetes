@@ -9,9 +9,18 @@ function App() {
     todoService.getAll().then((todos) => setTodos(todos))
   }, [])
 
-  const addTodo = (event) => {
+  const addTodo = async (event) => {
     event.preventDefault()
-    console.log('addTodo')
+    const newTodoToAdd = { content: newTodo }
+
+    try {
+      const returnedTodo = await todoService.create(newTodoToAdd)
+      setTodos(todos.concat(returnedTodo))
+      console.log(`successfully added todo ${newTodoToAdd.content}`)
+      setNewTodo('')
+    } catch {
+      console.error(`error adding todo ${newTodoToAdd.content}`)
+    }
   }
 
   const handleTodoChange = (event) => {

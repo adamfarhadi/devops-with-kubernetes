@@ -7,4 +7,8 @@ const getAll = async () => {
   return response.data
 }
 
-export default { getAll }
+const create = async (newTodo) => {
+  const request = axios.post(baseUrl, newTodo)
+  return request.then(response => response.data)}
+
+export default { getAll, create }
