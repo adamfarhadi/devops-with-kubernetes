@@ -21,7 +21,7 @@ function App() {
   return (
     <div>
       <h1>The Project App</h1>
-      <img src="/api/todos/image.jpg" alt="random image from server" />
+      <img src="/image" alt="random image from server" />
       <form onSubmit={addTodo}>
         <input
           value={newTodo}
