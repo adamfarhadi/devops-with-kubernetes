@@ -1,3 +1,6 @@
-const PORT = process.env.PORT || 3001
+require('dotenv').config()
 
-module.exports = { PORT }
+const PORT = process.env.PORT
+const MESSAGE = process.env.MESSAGE
+
+module.exports = { PORT, MESSAGE }

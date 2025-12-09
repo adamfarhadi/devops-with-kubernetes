@@ -1,10 +1,10 @@
 const express = require('express')
 const axios = require('axios')
 const app = express()
-const port = process.env.PORT || 3000
+const config = require('./utils/config')
 
 const fs = require('fs')
-const crypto = require("crypto");
+const crypto = require('crypto')
 
 const log_file_path =
   process.env.NODE_ENV === 'production'
@@ -15,14 +15,31 @@ const pingPongBaseUrl =
     ? 'http://ping-pong-svc:2345'
     : 'http://localhost:3001'
 
+const information_file_path =
+  process.env.NODE_ENV === 'production'
+    ? '/etc/information/information.txt'
+    : './local_dev_files/information.txt'
+
+const readInformationFile = async () => {
+  try {
+    const informationFileData = await fs.promises.readFile(
+      information_file_path,
+      'utf8'
+    )
+    return informationFileData
+  } catch (error) {
+    console.error('Error reading file: ', error)
+    return null
+  }
+}
+
 const writeLogFile = () => {
   const line = new Date() + ': ' + crypto.randomUUID()
 
   fs.writeFile(log_file_path, line, (error) => {
     if (error) {
       console.error('Error writing to file: ', error)
-    }
-    else {
+    } else {
       console.log('Wrote: ', line.trim())
     }
   })
@@ -44,7 +61,7 @@ const getLogContent = async () => {
 
 const getPingPongContent = async () => {
   const response = await axios.get(`${pingPongBaseUrl}/api/pingpong/pings`)
-  console.log('type of data: ', typeof(response.data))
+  console.log('type of data: ', typeof response.data)
   return response.data.toString()
 }
 
@@ -52,15 +69,25 @@ app.get('/', async (req, res) => {
   const logData = await getLogContent()
   console.log('Read: ', logData)
 
+  const informationData = await readInformationFile()
+  console.log('Read: ', informationData)
+
   const pingPongData = await getPingPongContent()
 
-  if (!logData || !pingPongData) {
+  if (!logData || !pingPongData || !informationData || !config.MESSAGE) {
     return res.status(500).end()
   }
 
-  res.send(`<p>${logData}</p><p>Ping / Pongs: ${pingPongData}</p>`)
+  res.send(
+    `
+      <p>file content: ${informationData}</p>
+      <p>env variable: MESSAGE=${config.MESSAGE}</p>
+      <p>${logData}</p>
+      <p>Ping / Pongs: ${pingPongData}</p>
+    `
+  )
 })
 
-app.listen(port, () => {
-  console.log(`Server started in port ${port}`)
+app.listen(config.PORT, () => {
+  console.log(`Server started in port ${config.PORT}`)
 })
