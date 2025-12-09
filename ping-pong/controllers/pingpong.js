@@ -1,13 +1,27 @@
 const pingpongRouter = require('express').Router()
+const Counter = require('../models/counter')
 
-var counter = 0
+pingpongRouter.get('/pingpong', async (req, res) => {
+  const counter = await Counter.findByPk('TRUE')
+  if (counter) {
+    counter.value = counter.value + 1
+    await counter.save()
+    res.send(`pong ${counter.value}`)
+  }
+  else {
+    res.status(404).end()
+  }
 
-pingpongRouter.get('/pingpong', (req, res) => {
-  res.send(`pong ${++counter}`)
 })
 
-pingpongRouter.get('/pings', (req, res) => {
-  res.send(counter.toString())
+pingpongRouter.get('/pings', async (req, res) => {
+  const counter = await Counter.findByPk('TRUE')
+  if(counter) {
+    res.send(counter.value)
+  }
+  else {
+    res.status(204).end()
+  }
 })
 
 module.exports = pingpongRouter

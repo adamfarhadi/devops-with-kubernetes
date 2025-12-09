@@ -1,8 +1,11 @@
 const express = require('express')
 const pingpongRouter = require('./controllers/pingpong')
 const middleware = require('./utils/middleware')
+const { connectToDatabase } = require('./utils/db')
 
 const app = express()
+
+connectToDatabase()
 
 app.use(express.json())
 
