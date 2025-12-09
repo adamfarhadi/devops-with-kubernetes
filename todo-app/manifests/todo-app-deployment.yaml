@@ -24,6 +24,10 @@ spec:
           env:
           - name: PORT
             value: "3001"
+          - name: IMAGE_URL
+            value: "https://picsum.photos/400"
+          - name: IMAGE_FILE_PATH
+            value: "/usr/src/app/files/image.jpg"
           volumeMounts:
           - name: todo-app-volume
             mountPath: /usr/src/app/files
