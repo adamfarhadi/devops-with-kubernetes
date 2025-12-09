@@ -29,6 +29,12 @@ spec:
         volumeMounts:
         - name: postgres-data-storage
           mountPath: /var/lib/postgresql/18/data
+        - name: postgres-pingpong-initdb
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: postgres-pingpong-initdb
+          configMap:
+            name: postgres-pingpong-initdb-config
   volumeClaimTemplates:
   - metadata:
       name: postgres-data-storage
@@ -52,3 +58,15 @@ spec:
   clusterIP: None
   selector:
     app: postgres-app
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-pingpong-initdb-config
+data:
+  seed.sql: |
+    CREATE TABLE counter (
+    id BOOLEAN PRIMARY KEY DEFAULT TRUE,
+    value INTEGER NOT NULL DEFAULT 0
+    );
+    INSERT INTO counter (value) VALUES (0);
