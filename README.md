@@ -27,3 +27,5 @@ My solutions for the DevOps With Kubernetes course offered by the University of 
 - [2.3](https://github.com/adamfarhadi/devops-with-kubernetes/tree/2.3)
 - [2.4](https://github.com/adamfarhadi/devops-with-kubernetes/tree/2.4)
 - [2.5](https://github.com/adamfarhadi/devops-with-kubernetes/tree/2.5)
+- [2.6](https://github.com/adamfarhadi/devops-with-kubernetes/tree/2.6)
+- [2.7](https://github.com/adamfarhadi/devops-with-kubernetes/tree/2.7)
