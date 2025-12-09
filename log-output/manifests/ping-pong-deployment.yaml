@@ -20,3 +20,24 @@ spec:
           env:
           - name: PORT
             value: "3001"
+          - name: DATABASE_URL
+            value: "postgres://postgres:postgres@postgres-svc/pingpong"
+          volumeMounts: 
+          - name: postgres-pingpong-initdb
+            mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: postgres-pingpong-initdb
+          configMap:
+            name: postgres-pingpong-initdb-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-pingpong-initdb-config
+data:
+  seed.sql: |
+    CREATE TABLE counter (
+    id BOOLEAN PRIMARY KEY DEFAULT TRUE,
+    value INTEGER NOT NULL DEFAULT 0
+    );
+    INSERT INTO counter (value) VALUES (0);
