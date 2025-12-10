@@ -15,8 +15,13 @@ spec:
     spec:
       containers:
         - name: todo-app-backend
-          image: adamfarhadi/dwk-todo-app-backend:2.6
+          image: adamfarhadi/dwk-todo-app-backend:2.8
           imagePullPolicy: Always
           env:
           - name: PORT
             value: "3000"
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: todo-app-postgres-connection-secret
+                key: DATABASE_URL

@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: project
+  name: todo-app-postgres-stset
+spec:
+  serviceName: todo-app-postgres-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app-postgres-app
+  template:
+    metadata:
+      labels:
+        app: todo-app-postgres-app
+    spec:
+      containers:
+      - name: todo-app-postgres-db
+        image: postgres:18
+        env:
+          - name: POSTGRES_USER
+            value: postgres
+          - name: POSTGRES_PASSWORD
+            value: postgres
+          - name: POSTGRES_DB
+            value: todo-app
+        ports:
+        - containerPort: 5432
+          name: web
+        volumeMounts:
+        - name: todo-app-postgres-data-storage
+          mountPath: /var/lib/postgresql/18/data
+        - name: postgres-todo-app-initdb
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: postgres-todo-app-initdb
+          configMap:
+            name: postgres-todo-app-initdb-config
+  volumeClaimTemplates:
+  - metadata:
+      name: todo-app-postgres-data-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: project
+  name: todo-app-postgres-svc
+spec:
+  ports:
+  - port: 5432
+    name: web
+  clusterIP: None
+  selector:
+    app: todo-app-postgres-app
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: project
+  name: postgres-todo-app-initdb-config
+data:
+  seed.sql: |
+    CREATE TABLE todos (
+    id      SERIAL PRIMARY KEY,
+    content VARCHAR(140) NOT NULL CHECK(length(content)>0)
+    );
+
+    INSERT INTO todos (content) VALUES ('Learn JavaScript');
+    INSERT INTO todos (content) VALUES ('Learn React');
+    INSERT INTO todos (content) VALUES ('Build a project');
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: project
+  name: todo-app-postgres-connection-secret
+type: Opaque
+stringData:
+  DATABASE_URL: "postgres://postgres:postgres@todo-app-postgres-svc/todo-app"
