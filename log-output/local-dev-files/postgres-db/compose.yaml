@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - data_sql:/var/lib/postgresql
+      - ping-pong-data-sql:/var/lib/postgresql
 
 volumes:
-  data_sql:
+  ping-pong-data-sql:

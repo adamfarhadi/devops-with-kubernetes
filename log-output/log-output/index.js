@@ -18,7 +18,7 @@ const pingPongBaseUrl =
 const information_file_path =
   process.env.NODE_ENV === 'production'
     ? '/etc/information/information.txt'
-    : './local_dev_files/information.txt'
+    : '../local-dev-files/information.txt'
 
 const readInformationFile = async () => {
   try {
