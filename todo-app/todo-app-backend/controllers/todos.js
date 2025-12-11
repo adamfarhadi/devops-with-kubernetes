@@ -7,6 +7,12 @@ todoRouter.get('/', async (req, res) => {
 })
 
 todoRouter.post('/', async (req, res) => {
+  if (req.body.content.length > 140) {
+    return res
+      .status(400)
+      .json({ error: 'todo content cannot exceed 140 characters in length' })
+  }
+
   const todo = await Todo.create(req.body)
   return res.json(todo)
 })
