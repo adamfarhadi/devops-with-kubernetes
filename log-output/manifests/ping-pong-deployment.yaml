@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: exercises
   name: ping-pong-dep
 spec:
   replicas: 1
@@ -15,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: adamfarhadi/dwk-ping-pong:2.5
+          image: adamfarhadi/dwk-ping-pong:3.1
           imagePullPolicy: Always
           env:
           - name: PORT
