@@ -12,7 +12,7 @@ const log_file_path =
     : '/tmp/log.txt'
 const pingPongBaseUrl =
   process.env.NODE_ENV === 'production'
-    ? 'http://ping-pong-svc:2345'
+    ? 'http://ping-pong-svc:80'
     : 'http://localhost:3001'
 
 const information_file_path =
