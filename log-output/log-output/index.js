@@ -60,8 +60,7 @@ const getLogContent = async () => {
 }
 
 const getPingPongContent = async () => {
-  const response = await axios.get(`${pingPongBaseUrl}/api/pingpong/pings`)
-  console.log('type of data: ', typeof response.data)
+  const response = await axios.get(`${pingPongBaseUrl}/pings`)
   return response.data.toString()
 }
 
