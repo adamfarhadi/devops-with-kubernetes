@@ -9,3 +9,10 @@ resources:
   - manifests/todo-app-deployment.yaml
   - manifests/ingress.yaml
   - manifests/todo-app-random-wiki-cronjob.yaml
+images:
+- name: todo-app
+  newName: adamfarhadi/dwk-todo-app
+  newTag: "3.5"
+- name: todo-app-backend
+  newName: adamfarhadi/dwk-todo-app-backend
+  newTag: "3.5"

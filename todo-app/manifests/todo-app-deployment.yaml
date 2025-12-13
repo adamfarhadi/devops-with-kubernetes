@@ -18,8 +18,8 @@ spec:
         persistentVolumeClaim:
           claimName: todo-app-pvc
       containers:
-        - name: todo-app-server
-          image: adamfarhadi/dwk-todo-app:3.5
+        - name: todo-app
+          image: todo-app
           imagePullPolicy: Always
           env:
           - name: PORT

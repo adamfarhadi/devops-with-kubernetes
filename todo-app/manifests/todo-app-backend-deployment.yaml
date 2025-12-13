@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-app-backend
-          image: adamfarhadi/dwk-todo-app-backend:3.5
+          image: todo-app-backend
           imagePullPolicy: Always
           env:
           - name: PORT
