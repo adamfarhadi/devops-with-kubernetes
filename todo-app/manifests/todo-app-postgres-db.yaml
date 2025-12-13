@@ -30,6 +30,7 @@ spec:
         volumeMounts:
         - name: todo-app-postgres-data-storage
           mountPath: /var/lib/postgresql/18/docker
+          subPath: postgres
         - name: postgres-todo-app-initdb
           mountPath: /docker-entrypoint-initdb.d
       volumes:
@@ -41,7 +42,6 @@ spec:
       name: todo-app-postgres-data-storage
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-path
       resources:
         requests:
           storage: 200Mi

@@ -10,6 +10,8 @@ connectToDatabase()
 app.use(express.json())
 
 app.use(middleware.requestLogger)
+
+app.get('/', (req, res) => res.sendStatus(200)) // required for GKE health check
 app.use('/api/todos', todoRouter)
 
 app.use(middleware.errorHandler)

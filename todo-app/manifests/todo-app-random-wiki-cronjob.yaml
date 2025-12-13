@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
           - name: todo-app-random-wiki-cronjob
-            image: adamfarhadi/dwk-todo-app-random-wiki-cronjob:2.9
+            image: adamfarhadi/dwk-todo-app-random-wiki-cronjob:3.5
             imagePullPolicy: Always
             command:
             - /usr/local/bin/random-wiki.sh
