@@ -47,7 +47,7 @@ jobs:
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
       - name: 'Change directory to todo-app'
-        run: 'cd cd ./todo-app/todo-app/'
+        run: 'cd ./todo-app/todo-app/'
 
       - name: 'Build frontend'
         run: 'npm run build:ui'
