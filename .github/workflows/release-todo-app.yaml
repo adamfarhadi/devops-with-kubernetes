@@ -9,8 +9,8 @@ env:
   GKE_ZONE: europe-north2-b
   REGISTRY: europe-north2-docker.pkg.dev
   REPOSITORY: dwk-gcloud-repository
-  IMAGE: dwk-todo-app
-  SERVICE: dwk-todo-app
+  TODO_APP_IMAGE: dwk-todo-app
+  TODO_APP_BACKEND_IMAGE: dwk-todo-app-backend
   BRANCH: ${{ github.ref_name }}
 
 jobs:
@@ -43,14 +43,17 @@ jobs:
           project_id: '${{ env.PROJECT_ID }}'
           location: '${{ env.GKE_ZONE }}'
 
-      - name : 'Form the image name'
-        run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+      - name : 'Form todo-app image name'
+        run: echo "TODO_APP_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
-      - name: 'Install backend deps'
+      - name : 'Form todo-app-backend image name'
+        run: echo "TODO_APP_BACKEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_BACKEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+
+      - name: 'Install todo-app deps'
         run: npm ci
         working-directory: ./todo-app/todo-app
 
-      - name: 'Install frontend deps'
+      - name: 'Install todo-app frontend deps'
         run: npm ci
         working-directory: ./todo-app/todo-app-frontend
 
@@ -58,8 +61,14 @@ jobs:
         run: npm run build:ui
         working-directory: ./todo-app/todo-app
 
-      - name: Build
-        run: docker build --tag $IMAGE_TAG ./todo-app/todo-app
+      - name: Build todo-app image
+        run: docker build --tag $TODO_APP_IMAGE_TAG ./todo-app/todo-app
 
-      - name: Publish
-        run: docker push $IMAGE_TAG
+      - name: Publish todo-app image
+        run: docker push $TODO_APP_IMAGE_TAG
+
+      - name: Build todo-app-backend image
+        run: docker build --tag $TODO_APP_BACKEND_IMAGE_TAG ./todo-app/todo-app-backend
+
+      - name: Publish todo-app-backend image
+        run: docker push $TODO_APP_BACKEND_IMAGE_TAG
