@@ -79,9 +79,18 @@ jobs:
       - name: Deploy todo-app and todo-app-backend
         working-directory: ./todo-app
         run: |-
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          if [ "$BRANCH_NAME" = "main" ]; then
+            NAMESPACE="project"
+          else
+            NAMESPACE="$BRANCH_NAME"
+          fi
+          kubectl create namespace "$NAMESPACE" || true
+          kubectl config set-context --current --namespace="$NAMESPACE"
+          kustomize edit set namespace "$NAMESPACE"
           kustomize edit set image todo-app=$TODO_APP_IMAGE_TAG
           kustomize edit set image todo-app-backend=$TODO_APP_BACKEND_IMAGE_TAG
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/todo-app-dep -n project
-          kubectl rollout status deployment/todo-app-backend-dep -n project
-          kubectl get services -n project -o wide
+          kubectl rollout status deployment/todo-app-dep -n "$NAMESPACE"
+          kubectl rollout status deployment/todo-app-backend-dep -n "$NAMESPACE"
+          kubectl get services -n "$NAMESPACE" -o wide

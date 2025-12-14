@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  namespace: project
   name: todo-app-postgres-stset
 spec:
   serviceName: todo-app-postgres-svc
@@ -49,7 +48,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: project
   name: todo-app-postgres-svc
 spec:
   ports:
@@ -62,7 +60,6 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: project
   name: postgres-todo-app-initdb-config
 data:
   seed.sql: |
@@ -78,7 +75,6 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  namespace: project
   name: todo-app-postgres-connection-secret
 type: Opaque
 stringData:
