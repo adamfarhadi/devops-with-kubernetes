@@ -46,8 +46,14 @@ jobs:
       - name : 'Form the image name'
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
+      - name: 'Change directory to todo-app'
+        run: 'cd cd ./todo-app/todo-app/'
+
+      - name: 'Build frontend'
+        run: 'npm run build:ui'
+
       - name: Build
-        run: docker build --tag $IMAGE_TAG ./todo-app/todo-app
+        run: docker build --tag $IMAGE_TAG .
 
       - name: Publish
         run: docker push $IMAGE_TAG
