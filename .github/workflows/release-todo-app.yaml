@@ -87,6 +87,15 @@ jobs:
       - name: Publish todo-app-random-wiki image
         run: docker push $TODO_APP_RANDOM_WIKI_IMAGE_TAG
 
+      - name: Determine namespace
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          if [ "$BRANCH_NAME" = "main" ]; then
+            echo "NAMESPACE=project" >> $GITHUB_ENV
+          else
+            echo "NAMESPACE=$BRANCH_NAME" >> $GITHUB_ENV
+          fi
+
       - name: Create backup secret
         run: |
           echo '${{ secrets.GCS_BACKUP_KEY }}' > /tmp/gcs-key.json
@@ -101,12 +110,6 @@ jobs:
       - name: Deploy todo-app and todo-app-backend
         working-directory: ./todo-app
         run: |-
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          if [ "$BRANCH_NAME" = "main" ]; then
-            NAMESPACE="project"
-          else
-            NAMESPACE="$BRANCH_NAME"
-          fi
           kubectl create namespace "$NAMESPACE" || true
           kubectl config set-context --current --namespace="$NAMESPACE"
           kustomize edit set namespace "$NAMESPACE"
