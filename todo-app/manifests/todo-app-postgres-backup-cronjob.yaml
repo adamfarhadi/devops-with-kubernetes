@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todo-app-postgres-backup
+spec:
+  schedule: "0 0 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: todo-app-backup
+          containers:
+          - name: postgres-backup
+            image: google/cloud-sdk:slim
+            env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-postgres-connection-secret
+                  key: DATABASE_URL
+            - name: BACKUP_BUCKET
+              value: gs://dwk-todo-app-postgres-backup-bucket
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
+            volumeMounts:
+            - name: gcp-sa-key
+              mountPath: /var/secrets/google
+              readOnly: true
+            command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+              export DEBIAN_FRONTEND=noninteractive
+              apt-get update >/dev/null
+              apt-get install -y --no-install-recommends wget gnupg >/dev/null
+              wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor > /usr/share/keyrings/postgresql-archive-keyring.gpg
+              echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+              apt-get update >/dev/null
+              apt-get install -y --no-install-recommends postgresql-client-18 >/dev/null
+              gcloud auth activate-service-account --key-file "${GOOGLE_APPLICATION_CREDENTIALS}"
+              ts=$(date -u +%Y%m%dT%H%M%SZ)
+              tmp="/tmp/todo-app-${ts}.sql"
+              pg_dump "${DATABASE_URL}" > "${tmp}"
+              gsutil cp "${tmp}" "${BACKUP_BUCKET}/todo-app-${ts}.sql"
+              rm -f "${tmp}"
+          volumes:
+          - name: gcp-sa-key
+            secret:
+              secretName: todo-app-gcp-sa
