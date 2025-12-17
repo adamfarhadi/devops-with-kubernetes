@@ -32,6 +32,13 @@ spec:
           subPath: postgres
         - name: postgres-todo-app-initdb
           mountPath: /docker-entrypoint-initdb.d
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "200m"
+          limits:
+            memory: "128Mi"
+            cpu: "400m"
       volumes:
         - name: postgres-todo-app-initdb
           configMap:
