@@ -87,6 +87,14 @@ jobs:
       - name: Publish todo-app-random-wiki image
         run: docker push $TODO_APP_RANDOM_WIKI_IMAGE_TAG
 
+      - name: Create backup secret
+        run: |
+          echo '${{ secrets.GCS_BACKUP_KEY }}' > /tmp/gcs-key.json
+          kubectl create secret generic todo-app-gcp-sa \
+            --from-file=key.json=/tmp/gcs-key.json \
+            --dry-run=client -o yaml | kubectl apply -n "$NAMESPACE" -f -
+          rm /tmp/gcs-key.json
+
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
