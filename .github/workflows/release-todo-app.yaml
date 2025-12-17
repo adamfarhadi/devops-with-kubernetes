@@ -96,6 +96,10 @@ jobs:
             echo "NAMESPACE=$BRANCH_NAME" >> $GITHUB_ENV
           fi
 
+      - name: Create namespace if it doesn't exist
+        run: |
+          kubectl create namespace "$NAMESPACE" || true
+
       - name: Create backup secret
         run: |
           echo '${{ secrets.GCS_BACKUP_KEY }}' > /tmp/gcs-key.json
@@ -110,7 +114,6 @@ jobs:
       - name: Deploy todo-app and todo-app-backend
         working-directory: ./todo-app
         run: |-
-          kubectl create namespace "$NAMESPACE" || true
           kubectl config set-context --current --namespace="$NAMESPACE"
           kustomize edit set namespace "$NAMESPACE"
           kustomize edit set image todo-app=$TODO_APP_IMAGE_TAG
