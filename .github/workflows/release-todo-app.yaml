@@ -49,13 +49,19 @@ jobs:
           location: '${{ env.GKE_ZONE }}'
 
       - name : 'Form todo-app image name'
-        run: echo "TODO_APP_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+        run: |
+          echo "TODO_APP_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+          echo "TODO_APP_IMAGE_LATEST_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_IMAGE:latest" >> $GITHUB_ENV
 
       - name : 'Form todo-app-backend image name'
-        run: echo "TODO_APP_BACKEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_BACKEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+        run: |
+          echo "TODO_APP_BACKEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_BACKEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+          echo "TODO_APP_BACKEND_IMAGE_LATEST_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_BACKEND_IMAGE:latest" >> $GITHUB_ENV
 
       - name : 'Form todo-app-random-wiki image name'
-        run: echo "TODO_APP_RANDOM_WIKI_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_RANDOM_WIKI_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+        run: |
+          echo "TODO_APP_RANDOM_WIKI_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_RANDOM_WIKI_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+          echo "TODO_APP_RANDOM_WIKI_IMAGE_LATEST_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$TODO_APP_RANDOM_WIKI_IMAGE:latest" >> $GITHUB_ENV
 
       - name: 'Install todo-app deps'
         run: npm ci
@@ -70,22 +76,28 @@ jobs:
         working-directory: ./todo-app/todo-app
 
       - name: Build todo-app image
-        run: docker build --tag $TODO_APP_IMAGE_TAG ./todo-app/todo-app
+        run: docker build --tag $TODO_APP_IMAGE_TAG --tag $TODO_APP_IMAGE_LATEST_TAG ./todo-app/todo-app
 
       - name: Publish todo-app image
-        run: docker push $TODO_APP_IMAGE_TAG
+        run: |
+          docker push $TODO_APP_IMAGE_TAG
+          docker push $TODO_APP_IMAGE_LATEST_TAG
 
       - name: Build todo-app-backend image
-        run: docker build --tag $TODO_APP_BACKEND_IMAGE_TAG ./todo-app/todo-app-backend
+        run: docker build --tag $TODO_APP_BACKEND_IMAGE_TAG --tag $TODO_APP_BACKEND_IMAGE_LATEST_TAG ./todo-app/todo-app-backend
 
       - name: Publish todo-app-backend image
-        run: docker push $TODO_APP_BACKEND_IMAGE_TAG
+        run: |
+          docker push $TODO_APP_BACKEND_IMAGE_TAG
+          docker push $TODO_APP_BACKEND_IMAGE_LATEST_TAG
 
       - name: Build todo-app-random-wiki image
-        run: docker build --tag $TODO_APP_RANDOM_WIKI_IMAGE_TAG ./todo-app/random-wiki
+        run: docker build --tag $TODO_APP_RANDOM_WIKI_IMAGE_TAG --tag $TODO_APP_RANDOM_WIKI_IMAGE_LATEST_TAG ./todo-app/random-wiki
 
       - name: Publish todo-app-random-wiki image
-        run: docker push $TODO_APP_RANDOM_WIKI_IMAGE_TAG
+        run: |
+          docker push $TODO_APP_RANDOM_WIKI_IMAGE_TAG
+          docker push $TODO_APP_RANDOM_WIKI_IMAGE_LATEST_TAG
 
       - name: Determine namespace
         run: |
