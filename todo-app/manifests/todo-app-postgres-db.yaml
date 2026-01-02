@@ -78,11 +78,3 @@ data:
     INSERT INTO todos (content) VALUES ('Learn JavaScript');
     INSERT INTO todos (content) VALUES ('Learn React');
     INSERT INTO todos (content) VALUES ('Build a project');
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: todo-app-postgres-connection-secret
-type: Opaque
-stringData:
-  DATABASE_URL: "postgres://postgres:postgres@todo-app-postgres-svc/todo-app"

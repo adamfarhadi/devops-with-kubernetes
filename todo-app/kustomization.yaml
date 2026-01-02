@@ -14,10 +14,10 @@ resources:
 images:
 - name: todo-app
   newName: adamfarhadi/dwk-todo-app
-  newTag: "3.5"
+  newTag: "4.2"
 - name: todo-app-backend
   newName: adamfarhadi/dwk-todo-app-backend
-  newTag: "3.5"
+  newTag: "4.2"
 - name: todo-app-random-wiki
   newName: adamfarhadi/dwk-todo-app-random-wiki-cronjob
-  newTag: "3.5"
+  newTag: "4.2"

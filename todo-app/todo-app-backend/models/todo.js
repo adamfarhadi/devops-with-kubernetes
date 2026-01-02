@@ -25,6 +25,8 @@ Todo.init(
   }
 )
 
-Todo.sync()
+Todo.sync().catch((error) => {
+  console.error('Counter sync failed: ', error)
+})
 
 module.exports = Todo
