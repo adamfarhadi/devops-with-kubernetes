@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: log-output
-          image: adamfarhadi/dwk-log-output:4.1
+          image: adamfarhadi/dwk-log-output:latest
           imagePullPolicy: Always
           env:
           - name: PORT
@@ -29,6 +29,12 @@ spec:
           - name: information-volume
             mountPath: "/etc/information"
             readOnly: true
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3001
       volumes:
       - name: information-volume
         configMap:

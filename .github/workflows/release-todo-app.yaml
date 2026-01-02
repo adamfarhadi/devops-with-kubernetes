@@ -1,12 +1,8 @@
 name: Release todo-app
 
 on:
-  push:
-    branches:
-      - '**'
-    tags-ignore:
-      - '*'
-
+  workflow_dispatch:
+    
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: dwk-cluster

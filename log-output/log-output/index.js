@@ -93,13 +93,14 @@ app.get('/healthz', async (req, res) => {
     if (response.status === 200) {
       console.log('Health check successful for log-output')
       return res.status(200).end()
+    } else {
+      console.error('Health check failed for log-output')
+      return res.status(500).end()
     }
   } catch (error) {
     console.error('Health check failed for log-output: ', error)
     return res.status(500).end()
   }
-
-  return res.status(500).end()
 })
 
 app.listen(config.PORT, () => {

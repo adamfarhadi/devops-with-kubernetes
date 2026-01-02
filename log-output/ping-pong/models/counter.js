@@ -17,10 +17,12 @@ Counter.init(
     sequelize,
     timestamps: false,
     modelName: 'counter',
-    freezeTableName: true
+    freezeTableName: true,
   }
 )
 
-Counter.sync()
+Counter.sync().catch((error) => {
+  console.error('Counter sync failed: ', error)
+})
 
 module.exports = Counter

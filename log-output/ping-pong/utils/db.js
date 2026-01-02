@@ -11,14 +11,10 @@ const connectToDatabase = () => {
 const connect = async () => {
   try {
     await sequelize.authenticate()
-    connected = true
     logger.info('Successfully connected to the database')
   } catch (error) {
     logger.error('Unable to connect to the database: ', error)
-    return process.exit(1)
   }
-
-  return null
 }
 
 const checkConnection = async () => {

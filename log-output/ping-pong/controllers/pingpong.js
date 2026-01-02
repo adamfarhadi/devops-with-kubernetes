@@ -23,12 +23,17 @@ pingpongRouter.get('/pings', async (req, res) => {
 })
 
 pingpongRouter.get('/healthz', async (req, res) => {
-  if (await checkConnection()) {
-    console.log('Health check successful for ping-pong')
-    res.status(200).end()
-  } else {
+  try {
+    if (await checkConnection()) {
+      console.log('Health check successful for ping-pong')
+      return res.status(200).end()
+    } else {
+      console.error('Health check failed for ping-pong')
+      return res.status(500).end()
+    }
+  } catch (error) {
     console.error('Health check failed for ping-pong: ', error)
-    res.status(500).end()
+    return res.status(500).end()
   }
 })
 

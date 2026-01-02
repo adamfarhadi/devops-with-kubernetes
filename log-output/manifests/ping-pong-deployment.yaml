@@ -15,10 +15,16 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: adamfarhadi/dwk-ping-pong:4.1
+          image: adamfarhadi/dwk-ping-pong:latest
           imagePullPolicy: Always
           env:
           - name: PORT
             value: "3001"
           - name: DATABASE_URL
             value: "postgres://postgres:postgres@postgres-svc/pingpong"
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3001
