@@ -1,16 +1,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - manifests/todo-app-postgres-db.yaml
+  # - manifests/todo-app-postgres-db.yaml
   - manifests/todo-app-backend-service.yaml
   - manifests/todo-app-backend-deployment.yaml
   - manifests/todo-app-pvc.yaml
   - manifests/todo-app-service.yaml
   - manifests/todo-app-deployment.yaml
-  - manifests/ingress.yaml
   - manifests/todo-app-random-wiki-cronjob.yaml
   - manifests/todo-app-postgres-backup-cronjob.yaml
   - manifests/todo-app-backup-serviceaccount.yaml
+  - manifests/todo-app-route.yaml
+  - manifests/todo-app-backend-route.yaml
+  - manifests/todo-app-gateway.yaml
 images:
 - name: todo-app
   newName: adamfarhadi/dwk-todo-app
