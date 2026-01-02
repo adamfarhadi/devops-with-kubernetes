@@ -10,6 +10,7 @@ resources:
   - manifests/ingress.yaml
   - manifests/todo-app-random-wiki-cronjob.yaml
   - manifests/todo-app-postgres-backup-cronjob.yaml
+  - manifests/todo-app-backup-serviceaccount.yaml
 images:
 - name: todo-app
   newName: adamfarhadi/dwk-todo-app
