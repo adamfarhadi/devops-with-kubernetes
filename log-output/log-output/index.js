@@ -87,6 +87,21 @@ app.get('/', async (req, res) => {
   )
 })
 
+app.get('/healthz', async (req, res) => {
+  try {
+    const response = await axios.get(`${pingPongBaseUrl}/healthz`)
+    if (response.status === 200) {
+      console.log('Health check successful for log-output')
+      return res.status(200).end()
+    }
+  } catch (error) {
+    console.error('Health check failed for log-output: ', error)
+    return res.status(500).end()
+  }
+
+  return res.status(500).end()
+})
+
 app.listen(config.PORT, () => {
   console.log(`Server started in port ${config.PORT}`)
 })

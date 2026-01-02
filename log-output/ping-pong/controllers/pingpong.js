@@ -1,5 +1,6 @@
 const pingpongRouter = require('express').Router()
 const Counter = require('../models/counter')
+const { checkConnection } = require('../utils/db')
 
 pingpongRouter.get('/', async (req, res) => {
   const counter = await Counter.findByPk('TRUE')
@@ -18,6 +19,16 @@ pingpongRouter.get('/pings', async (req, res) => {
     res.send(counter.value)
   } else {
     res.status(204).end()
+  }
+})
+
+pingpongRouter.get('/healthz', async (req, res) => {
+  if (await checkConnection()) {
+    console.log('Health check successful for ping-pong')
+    res.status(200).end()
+  } else {
+    console.error('Health check failed for ping-pong: ', error)
+    res.status(500).end()
   }
 })
 

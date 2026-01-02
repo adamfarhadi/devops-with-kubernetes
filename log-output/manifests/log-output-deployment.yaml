@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: log-output
-          image: adamfarhadi/dwk-log-output:3.4
+          image: adamfarhadi/dwk-log-output:4.1
           imagePullPolicy: Always
           env:
           - name: PORT

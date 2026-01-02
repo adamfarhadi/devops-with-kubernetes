@@ -11,6 +11,7 @@ const connectToDatabase = () => {
 const connect = async () => {
   try {
     await sequelize.authenticate()
+    connected = true
     logger.info('Successfully connected to the database')
   } catch (error) {
     logger.error('Unable to connect to the database: ', error)
@@ -20,4 +21,13 @@ const connect = async () => {
   return null
 }
 
-module.exports = { connectToDatabase, sequelize }
+const checkConnection = async () => {
+  try {
+    await sequelize.authenticate()
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+module.exports = { connectToDatabase, checkConnection, sequelize }
