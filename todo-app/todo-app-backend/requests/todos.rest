@@ -6,5 +6,15 @@ POST http://localhost:3000/api/todos/
 content-type: application/json
 
 {
-  "content": "eat limes"
+  "content": "move to bermuda"
+}
+
+###
+PUT http://localhost:3000/api/todos/4
+content-type: application/json
+
+{
+  "id": 4,
+  "content": "huf",
+  "done": true
 }

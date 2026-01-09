@@ -17,6 +17,11 @@ Todo.init(
         notEmpty: true
       }
     },
+    done: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     sequelize,
@@ -26,7 +31,7 @@ Todo.init(
 )
 
 Todo.sync().catch((error) => {
-  console.error('Counter sync failed: ', error)
+  console.error('Todo sync failed: ', error)
 })
 
 module.exports = Todo

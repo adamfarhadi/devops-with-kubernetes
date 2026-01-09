@@ -11,4 +11,9 @@ const create = async (newTodo) => {
   const request = axios.post(baseUrl, newTodo)
   return request.then(response => response.data)}
 
-export default { getAll, create }
+const update = async (id, newTodo) => {
+  const response = await axios.put(`${baseUrl}/${id}`, newTodo)
+  return response.data
+}
+
+export default { getAll, create, update }

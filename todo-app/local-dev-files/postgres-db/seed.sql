@@ -1,6 +1,7 @@
 CREATE TABLE todos (
     id      SERIAL PRIMARY KEY,
-    content VARCHAR(140) NOT NULL CHECK(length(content)>0)
+    content VARCHAR(140) NOT NULL CHECK(length(content)>0),
+    done    BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 INSERT INTO todos (content) VALUES ('Learn JavaScript');
