@@ -3,7 +3,9 @@ kind: Kustomization
 resources:
   - manifests/postgres-db.yaml
   - manifests/ping-pong-service.yaml
-  - manifests/ping-pong-deployment.yaml
+  # - manifests/ping-pong-deployment.yaml
+  - manifests/ping-pong-analysis-template.yaml
+  - manifests/ping-pong-rollout.yaml
   - manifests/log-output-configmap.yaml
   - manifests/log-output-service.yaml
   - manifests/log-output-deployment.yaml
