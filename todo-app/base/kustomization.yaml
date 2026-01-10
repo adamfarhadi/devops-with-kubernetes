@@ -29,24 +29,42 @@ vars:
     apiVersion: v1
     kind: Service
     name: todo-app-postgres-svc
-- fieldref:
-    fieldPath: metadata.name
-  name: TODO_APP_GATEWAY_NAME
-  objref:
+replacements:
+- source:
     apiVersion: gateway.networking.k8s.io/v1beta1
     kind: Gateway
     name: todo-app-gateway
-- fieldref:
     fieldPath: metadata.name
-  name: TODO_APP_SERVICE_NAME
-  objref:
+  targets:
+  - select:
+      kind: HTTPRoute
+      name: todo-app-route
+    fieldPaths:
+    - spec.parentRefs.0.name
+  - select:
+      kind: HTTPRoute
+      name: todo-app-backend-route
+    fieldPaths:
+    - spec.parentRefs.0.name
+- source:
     apiVersion: v1
     kind: Service
     name: todo-app-svc
-- fieldref:
     fieldPath: metadata.name
-  name: TODO_APP_BACKEND_SERVICE_NAME
-  objref:
+  targets:
+  - select:
+      kind: HTTPRoute
+      name: todo-app-route
+    fieldPaths:
+    - spec.rules.0.backendRefs.0.name
+- source:
     apiVersion: v1
     kind: Service
     name: todo-app-backend-svc
+    fieldPath: metadata.name
+  targets:
+  - select:
+      kind: HTTPRoute
+      name: todo-app-backend-route
+    fieldPaths:
+    - spec.rules.0.backendRefs.0.name
