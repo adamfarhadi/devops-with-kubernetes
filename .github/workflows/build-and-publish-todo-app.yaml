@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-publish:
-    name: Build, Publish and Deploy
+    name: Build and publish todo app
     runs-on: ubuntu-latest
     environment:
       name: todo-app-prod
