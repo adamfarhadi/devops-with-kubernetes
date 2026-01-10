@@ -14,10 +14,10 @@ resources:
 images:
 - name: todo-app
   newName: adamfarhadi/dwk-todo-app
-  newTag: 1aad2fb038452b03b76843fdd1896cf4ecf6dd9e
+  newTag: 470a5cd3ec65fa2252d8224738253de470ea3da1
 - name: todo-app-backend
   newName: adamfarhadi/dwk-todo-app-backend
-  newTag: 1aad2fb038452b03b76843fdd1896cf4ecf6dd9e
+  newTag: 470a5cd3ec65fa2252d8224738253de470ea3da1
 - name: todo-app-random-wiki
   newName: adamfarhadi/dwk-todo-app-random-wiki
-  newTag: 1aad2fb038452b03b76843fdd1896cf4ecf6dd9e
+  newTag: 470a5cd3ec65fa2252d8224738253de470ea3da1
