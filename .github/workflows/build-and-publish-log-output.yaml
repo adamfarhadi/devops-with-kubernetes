@@ -46,7 +46,7 @@ jobs:
 
       - name: 'Install ping-pong deps'
         run: npm ci
-        working-directory: ./log-putput/ping-pong
+        working-directory: ./log-outout/ping-pong
 
       - name: Build log-output image
         run: docker build --tag $LOG_OUTPUT_IMAGE_TAG --tag LOG_OUTPUT_IMAGE_LATEST_TAG ./log-output/log-output
