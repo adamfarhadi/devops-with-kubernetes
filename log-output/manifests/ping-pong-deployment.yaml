@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: adamfarhadi/dwk-ping-pong:latest
+          image: log-output
           imagePullPolicy: Always
           env:
           - name: PORT

@@ -3,12 +3,17 @@ kind: Kustomization
 resources:
   - manifests/postgres-db.yaml
   - manifests/ping-pong-service.yaml
-  # - manifests/ping-pong-deployment.yaml
-  - manifests/ping-pong-analysis-template.yaml
-  - manifests/ping-pong-rollout.yaml
+  - manifests/ping-pong-deployment.yaml
   - manifests/log-output-configmap.yaml
   - manifests/log-output-service.yaml
   - manifests/log-output-deployment.yaml
   - manifests/ping-pong-route.yaml
   - manifests/log-output-route.yaml
   - manifests/gateway.yaml
+images:
+- name: log-output
+  newName: adamfarhadi/dwk-log-output
+  newTag: "4.1"
+- name: ping-pong
+  newName: adamfarhadi/dwk-ping-pong
+  newTag: "4.1"
