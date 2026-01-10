@@ -58,7 +58,7 @@ jobs:
       - name : 'Form todo-app image name'
         run: |
           echo "TODO_APP_IMAGE_TAG=$DOCKER_HUB_USERNAME/$TODO_APP_IMAGE:$GITHUB_SHA" >> $GITHUB_ENV
-          echo "TODO_APP_IMAGE_LATEST_TAG=$DOCKER_HUB_USERNAME/$PROJECT_ID/$REPOSITORY/$TODO_APP_IMAGE:latest" >> $GITHUB_ENV
+          echo "TODO_APP_IMAGE_LATEST_TAG=$DOCKER_HUB_USERNAME/$TODO_APP_IMAGE:latest" >> $GITHUB_ENV
 
       - name : 'Form todo-app-backend image name'
         run: |
