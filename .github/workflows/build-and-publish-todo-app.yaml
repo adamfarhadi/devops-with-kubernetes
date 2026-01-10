@@ -84,6 +84,8 @@ jobs:
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
+        with:
+          kustomize-version: v5.8.0
 
       - name: Deploy todo-app and todo-app-backend
         working-directory: ./todo-app/base
