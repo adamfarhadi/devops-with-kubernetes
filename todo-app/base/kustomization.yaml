@@ -21,3 +21,11 @@ images:
 - name: todo-app-random-wiki
   newName: adamfarhadi/dwk-todo-app-random-wiki
   newTag: 470a5cd3ec65fa2252d8224738253de470ea3da1
+vars:
+- name: POSTGRES_SERVICE_NAME
+  objref:
+    apiVersion: v1
+    kind: Service
+    name: todo-app-postgres-svc
+  fieldref:
+    fieldpath: metadata.name
