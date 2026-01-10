@@ -14,13 +14,13 @@ resources:
 images:
 - name: todo-app
   newName: adamfarhadi/dwk-todo-app
-  newTag: ec906b22b200c70e80d55604114bf8f64f663ca4
+  newTag: 01adacb3fe08430c8e0d3f8fb5c8477bfc8af726
 - name: todo-app-backend
   newName: adamfarhadi/dwk-todo-app-backend
-  newTag: ec906b22b200c70e80d55604114bf8f64f663ca4
+  newTag: 01adacb3fe08430c8e0d3f8fb5c8477bfc8af726
 - name: todo-app-random-wiki
   newName: adamfarhadi/dwk-todo-app-random-wiki
-  newTag: ec906b22b200c70e80d55604114bf8f64f663ca4
+  newTag: 01adacb3fe08430c8e0d3f8fb5c8477bfc8af726
 vars:
 - fieldref:
     fieldPath: metadata.name
