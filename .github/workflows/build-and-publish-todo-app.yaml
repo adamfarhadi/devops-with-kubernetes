@@ -95,5 +95,5 @@ jobs:
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
-          add: 'kustomization.yaml'
-          message: New version released ${{ github.sha }}
+          add: 'todo-app/kustomization.yaml'
+          message: New todo-app version released ${{ github.sha }}
