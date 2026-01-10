@@ -86,7 +86,7 @@ jobs:
         uses: imranismail/setup-kustomize@v2.1.0
 
       - name: Deploy todo-app and todo-app-backend
-        working-directory: ./todo-app
+        working-directory: ./todo-app/base
         run: |-
           kustomize edit set image todo-app=$TODO_APP_IMAGE_TAG
           kustomize edit set image todo-app-backend=$TODO_APP_BACKEND_IMAGE_TAG
