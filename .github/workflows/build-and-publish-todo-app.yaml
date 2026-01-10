@@ -1,4 +1,4 @@
-name: Release todo-app
+name: Build and publish todo app
 
 on:
   push:
@@ -9,18 +9,13 @@ on:
   workflow_dispatch:
     
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: dwk-cluster
-  GKE_ZONE: europe-north2-b
-  REGISTRY: europe-north2-docker.pkg.dev
-  REPOSITORY: dwk-gcloud-repository
   DOCKER_HUB_USERNAME: adamfarhadi
   TODO_APP_IMAGE: dwk-todo-app
   TODO_APP_BACKEND_IMAGE: dwk-todo-app-backend
   TODO_APP_RANDOM_WIKI_IMAGE: dwk-todo-app-random-wiki
 
 jobs:
-  build-publish-deploy:
+  build-publish:
     name: Build, Publish and Deploy
     runs-on: ubuntu-latest
     environment:
@@ -30,30 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - uses: google-github-actions/auth@v2
-        with:
-          credentials_json: '${{ secrets.GKE_SA_KEY }}'
-      
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ env.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-      - name: 'Set up Cloud SDK'
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: 'Use gcloud CLI'
-        run: gcloud info
-
-      - run: gcloud --quiet auth configure-docker $REGISTRY
-
-      - name: 'Get GKE credentials'
-        uses: 'google-github-actions/get-gke-credentials@v2'
-        with:
-          cluster_name: '${{ env.GKE_CLUSTER }}'
-          project_id: '${{ env.PROJECT_ID }}'
-          location: '${{ env.GKE_ZONE }}'
 
       - name : 'Form todo-app image name'
         run: |
@@ -106,34 +82,18 @@ jobs:
           docker push $TODO_APP_RANDOM_WIKI_IMAGE_TAG
           docker push $TODO_APP_RANDOM_WIKI_IMAGE_LATEST_TAG
 
-      - name: Set namespace
-        run: |
-          echo "NAMESPACE=project" >> $GITHUB_ENV
-
-      - name: Create namespace if it doesn't exist
-        run: |
-          kubectl create namespace "$NAMESPACE" || true
-
-      - name: Create backup secret
-        run: |
-          echo '${{ secrets.GCS_BACKUP_KEY }}' > /tmp/gcs-key.json
-          kubectl create secret generic todo-app-gcp-sa \
-            --from-file=key.json=/tmp/gcs-key.json \
-            --dry-run=client -o yaml | kubectl apply -n "$NAMESPACE" -f -
-          rm /tmp/gcs-key.json
-
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
       - name: Deploy todo-app and todo-app-backend
         working-directory: ./todo-app
         run: |-
-          kubectl config set-context --current --namespace="$NAMESPACE"
-          kustomize edit set namespace "$NAMESPACE"
           kustomize edit set image todo-app=$TODO_APP_IMAGE_TAG
           kustomize edit set image todo-app-backend=$TODO_APP_BACKEND_IMAGE_TAG
           kustomize edit set image todo-app-random-wiki=$TODO_APP_RANDOM_WIKI_IMAGE_TAG
-          kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/todo-app-dep -n "$NAMESPACE"
-          kubectl rollout status deployment/todo-app-backend-dep -n "$NAMESPACE"
-          kubectl get services -n "$NAMESPACE" -o wide
+
+      - name: commit kustomization.yaml to GitHub
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'kustomization.yaml'
+          message: New version released ${{ github.sha }}
