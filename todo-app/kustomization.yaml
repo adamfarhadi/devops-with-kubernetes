@@ -1,25 +1,25 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - manifests/todo-app-postgres-db.yaml
-  - manifests/todo-app-backend-service.yaml
-  - manifests/todo-app-backend-deployment.yaml
-  - manifests/todo-app-pvc.yaml
-  - manifests/todo-app-service.yaml
-  - manifests/todo-app-deployment.yaml
-  - manifests/todo-app-random-wiki-cronjob.yaml
-  - manifests/todo-app-postgres-backup-cronjob.yaml
-  - manifests/todo-app-backup-serviceaccount.yaml
-  - manifests/todo-app-route.yaml
-  - manifests/todo-app-backend-route.yaml
-  - manifests/todo-app-gateway.yaml
+- manifests/todo-app-postgres-db.yaml
+- manifests/todo-app-backend-service.yaml
+- manifests/todo-app-backend-deployment.yaml
+- manifests/todo-app-pvc.yaml
+- manifests/todo-app-service.yaml
+- manifests/todo-app-deployment.yaml
+- manifests/todo-app-random-wiki-cronjob.yaml
+- manifests/todo-app-postgres-backup-cronjob.yaml
+- manifests/todo-app-backup-serviceaccount.yaml
+- manifests/todo-app-route.yaml
+- manifests/todo-app-backend-route.yaml
+- manifests/todo-app-gateway.yaml
 images:
 - name: todo-app
   newName: adamfarhadi/dwk-todo-app
-  newTag: "4.5"
+  newTag: 14b7cb8757024476f83ea2e486117ebe627887cd
 - name: todo-app-backend
   newName: adamfarhadi/dwk-todo-app-backend
-  newTag: "4.5"
+  newTag: 14b7cb8757024476f83ea2e486117ebe627887cd
 - name: todo-app-random-wiki
-  newName: adamfarhadi/dwk-todo-app-random-wiki-cronjob
-  newTag: "4.5"
+  newName: adamfarhadi/dwk-todo-app-random-wiki
+  newTag: 14b7cb8757024476f83ea2e486117ebe627887cd
