@@ -1,4 +1,4 @@
-name: Build and publish todo app
+name: Build and publish todo app staging
 
 on:
   push:
@@ -16,10 +16,10 @@ env:
 
 jobs:
   build-publish:
-    name: Build and publish todo app
+    name: Build and publish todo app staging
     runs-on: ubuntu-latest
     environment:
-      name: todo-app-prod
+      name: todo-app-staging
 
     steps:
       - name: Checkout
@@ -95,5 +95,5 @@ jobs:
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
-          add: 'todo-app/kustomization.yaml'
+          add: 'todo-app/overlays/staging/kustomization.yaml'
           message: New todo-app version released ${{ github.sha }}
