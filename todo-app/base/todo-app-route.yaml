@@ -4,12 +4,12 @@ metadata:
   name: todo-app-route
 spec:
   parentRefs:
-  - name: todo-app-gateway
+  - name: $(TODO_APP_GATEWAY_NAME)
   rules:
   - matches:
     - path:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: todo-app-svc
+    - name: $(TODO_APP_SERVICE_NAME)
       port: 80
