@@ -13,7 +13,7 @@ resources:
 images:
 - name: log-output
   newName: adamfarhadi/dwk-log-output
-  newTag: 97603d7bb1ee2978b24798a2ab3d3e2981152aeb
+  newTag: ed9f7b417b1245c8e9f26ed8fb3cfc07baf4d71c
 - name: ping-pong
   newName: adamfarhadi/dwk-ping-pong
-  newTag: 97603d7bb1ee2978b24798a2ab3d3e2981152aeb
+  newTag: ed9f7b417b1245c8e9f26ed8fb3cfc07baf4d71c
